@@ -111,6 +111,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Button.cpp" />
+    <ClCompile Include="Connect.cpp" />
+    <ClCompile Include="File.cpp" />
+    <ClCompile Include="IFunction.cpp" />
+    <ClCompile Include="Graph.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Path.cpp" />
+    <ClCompile Include="Search.cpp" />
+    <ClCompile Include="Vertex.cpp" />
+    <ClCompile Include="Window.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Button.h" />
+    <ClInclude Include="Connect.h" />
+    <ClInclude Include="File.h" />
+    <ClInclude Include="IFunction.h" />
+    <ClInclude Include="Graph.h" />
+    <ClInclude Include="Path.h" />
+    <ClInclude Include="Search.h" />
+    <ClInclude Include="Vertex.h" />
+    <ClInclude Include="Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
