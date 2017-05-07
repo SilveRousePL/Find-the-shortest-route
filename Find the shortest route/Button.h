@@ -1,19 +1,24 @@
 #pragma once
 #include <string>
+#include <SFML/Graphics.hpp>
 
-using namespace std;
-
-class Button
+class Button : public sf::Drawable, public sf::Transformable
 {
 	int width;
 	int height;
-	string name;
-	int color[3];
+	int char_size;
+
+	sf::RectangleShape rectangle;
+	sf::Text text;
+	sf::Font font;
+	sf::Color color;
 
 public:
 	Button();
 	~Button();
 
-	void SetColor(int[3]);
+	void draw(sf::RenderTarget&, sf::RenderStates&) const;
+	void init(int width, int height, std::string name, int char_size);
+	void setColor(sf::Color);
 };
 
