@@ -1,22 +1,27 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <SFML/Graphics.hpp>
 
 using namespace std;
 
-class Vertex
+class Vertex : public sf::Drawable, public sf::Transformable
 {
 	string name;
 	int x;
 	int y;
-	vector<Vertex> vertex_n;
-	vector<int> vertex_c;
-	int color[3];
+
+	sf::CircleShape circle;
+	sf::Text text;
+	sf::Font font;
+	sf::Color color;
 
 public:
 	Vertex();
 	~Vertex();
 
-	void SetColor(int[3]);
+	void draw(sf::RenderTarget & target, sf::RenderStates & states) const;
+
+	void setColor(sf::Color);
 };
 

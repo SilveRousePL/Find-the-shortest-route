@@ -10,9 +10,8 @@ using namespace std;
 class Graph
 {
 	File file;
-	vector<Vertex> vertex;
-	vector<Connect> connect;
-	Path shortest_path;
+	vector <Vertex> vertex;
+	vector <Connect> connect;
 
 public:
 	Graph();

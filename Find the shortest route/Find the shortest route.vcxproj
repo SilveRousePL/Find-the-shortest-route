@@ -127,10 +127,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Button.cpp" />
+    <ClCompile Include="ADrawObject.cpp" />
+    <ClCompile Include="DButton.cpp" />
     <ClCompile Include="Connect.cpp" />
     <ClCompile Include="File.cpp" />
-    <ClCompile Include="IFunction.cpp" />
+    <ClCompile Include="SFunction.cpp" />
     <ClCompile Include="Graph.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />
@@ -140,10 +141,11 @@
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Button.h" />
+    <ClInclude Include="ADrawObject.h" />
+    <ClInclude Include="DButton.h" />
     <ClInclude Include="Connect.h" />
     <ClInclude Include="File.h" />
-    <ClInclude Include="IFunction.h" />
+    <ClInclude Include="SFunction.h" />
     <ClInclude Include="Graph.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Path.h" />

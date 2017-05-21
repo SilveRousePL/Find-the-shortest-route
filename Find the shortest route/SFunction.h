@@ -1,7 +1,7 @@
 #pragma once
 #include "Graph.h"
 
-class IFunction
+class SFunction
 {
 public:
 	Graph OpenFile();

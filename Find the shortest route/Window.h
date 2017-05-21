@@ -1,6 +1,6 @@
 #pragma once
 #include "Graph.h"
-#include "Button.h"
+#include "DButton.h"
 #include <SFML/Graphics.hpp>
 
 using namespace std;

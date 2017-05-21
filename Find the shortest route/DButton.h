@@ -1,8 +1,9 @@
 #pragma once
 #include <string>
 #include <SFML/Graphics.hpp>
+#include "ADrawObject.h"
 
-class Button : public sf::Drawable, public sf::Transformable
+class DButton :public ADrawObject
 {
 	int width;
 	int height;
@@ -14,11 +15,9 @@ class Button : public sf::Drawable, public sf::Transformable
 	sf::Color color;
 
 public:
-	Button();
-	~Button();
+	DButton();
+	~DButton();
 
-	void draw(sf::RenderTarget&, sf::RenderStates&) const;
 	void init(int width, int height, std::string name, int char_size);
-	void setColor(sf::Color);
 };
 

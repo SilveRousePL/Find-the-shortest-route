@@ -1,6 +1,6 @@
-#include "Button.h"
+#include "DButton.h"
 
-Button::Button()
+DButton::DButton()
 {
 	rectangle.setOutlineThickness(2);
 	font.loadFromFile("arial.ttf");
@@ -8,19 +8,20 @@ Button::Button()
 	init(32, 32, "New button", 8);
 }
 
-Button::~Button()
+DButton::~DButton()
 {
+
 }
 
-void Button::draw(sf::RenderTarget& target, sf::RenderStates& states) const
+void DButton::draw(sf::RenderTarget& target, sf::RenderStates& states) const
 {
 	target.draw(rectangle);
 	target.draw(text);
 }
 
-void Button::init(int width, int height, std::string name, int char_size)
+void DButton::init(int width, int height, std::string name, int char_size)
 {
-	if (width < 8 || height < 8 || char_size < 1) throw std::string("New button size is wrong");
+	if (width < 1 || height < 1 || char_size < 1) throw std::string("New button size is wrong");
 
 	this->width = width;
 	this->height = height;
@@ -31,7 +32,7 @@ void Button::init(int width, int height, std::string name, int char_size)
 	text.setString(name);
 }
 
-void Button::setColor(sf::Color)
+void DButton::setColor(sf::Color)
 {
 	this->color = color;
 	rectangle.setOutlineColor(this->color);
