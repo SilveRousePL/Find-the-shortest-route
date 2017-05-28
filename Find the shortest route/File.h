@@ -1,19 +1,29 @@
 #pragma once
 #include <fstream>
 #include <string>
-
-using namespace std;
+#include "Graph.h"
+#include "Exceptions.h"
 
 class File
 {
-	fstream f;
-	string name;
+	std::fstream handle;
+	std::string filename;
+	Graph * graph;
+	int ** data;
 
 public:
-	File();
+	File(std::string);
 	~File();
 
-	bool Read();
-	bool Write();
-};
+	Graph open();
+	bool save(Graph);
 
+	bool isCorrect();
+	std::string getFilename() const;
+	void setFilename(std::string);
+	int ** getData() const;
+	int getAmount() const;
+	
+private:
+	void _completeGraph();
+};

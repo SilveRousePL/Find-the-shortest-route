@@ -1,9 +1,11 @@
 #pragma once
+#include <vector>
 #include "Graph.h"
 #include "Menu.h"
 #include <SFML/Graphics.hpp>
+#include <TGUI/TGUI.hpp>
 
-using namespace std;
+enum objects;
 
 class Window
 {
@@ -11,8 +13,11 @@ class Window
 	sf::Event event;
 	sf::Clock clock;
 
-	Graph * graph;
 	Menu menu;
+	Graph * graph;
+	
+	objects indicated_object;
+	objects recently_indicated_object;
 
 public:
 	Window(int=800, int=600);
@@ -24,5 +29,17 @@ private:
 	void mainLoop(); //G³ówna pêtla programu
 	void drawList(); //Lista elementów do rysowania
 	void eventCheck(); //Obs³uga zdarzeñ
-	void animateList(); //Lista elementów do animacji
+	void mouseOver(); //
+};
+
+enum objects
+{
+	NOTHING,
+	MENU_BUTTON,
+	ADD_VERTEX_BUTTON,
+	ADD_CONNECT_BUTTON,
+	REMOVE_VERTEX_BUTTON,
+	REMOVE_CONNECT_BUTTON,
+	FIND_BUTTON,
+	BACKGROUND_MENU,
 };

@@ -9,12 +9,17 @@ Button::Button(string name, sf::Vector2f size, int font_size)
 	if (!arial.loadFromFile("arial.ttf")) throw CriticalException("Error loading font");
 
 	rec.setSize(size);
-	rec.setFillColor(sf::Color(255, 255, 255));
+	rec.setFillColor(sf::Color(248, 248, 248));
+	rec.setOutlineThickness(1);
+	rec.setOutlineColor(sf::Color(128, 128, 128));
+
 	text.setFont(arial);
 	text.setCharacterSize(font_size);
 	text.setString(name);
 	text.setFillColor(sf::Color(0, 0, 0));
-	text.move(sf::Vector2f((size.x - text.getGlobalBounds().width) / 2, (size.y - text.getGlobalBounds().height) / 2 ));
+	text.move(sf::Vector2f((size.x - text.getGlobalBounds().width) / 2, (size.y - text.getCharacterSize()) / 2 ));
+
+	is_hover = false;
 }
 
 Button::~Button()
@@ -27,4 +32,14 @@ void Button::draw(sf::RenderTarget & target, sf::RenderStates states) const
 	states.transform *= getTransform();
 	target.draw(rec, states);
 	target.draw(text, states);
+}
+
+void Button::hover(bool state)
+{
+	if (state && !is_hover)
+	{
+		rec.setFillColor(sf::Color(230, 230, 230));
+		is_hover = true;
+	}
+	else if(!state && is_hover) rec.setFillColor(sf::Color(248, 248, 248));
 }

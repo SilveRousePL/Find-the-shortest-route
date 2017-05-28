@@ -5,23 +5,22 @@ class Menu : public sf::Drawable, public sf::Transformable
 {
 	friend class Window;
 
-	sf::Vector2f size;
+	static const int amount = 6;
+
 	sf::RectangleShape bar;
 	sf::RectangleShape background;
-	Button menu_toggle;
+	sf::Vector2f window_size;
 	std::vector<Button> button;
 
-	sf::Clock timer;
 	bool is_show;
-	bool slide;
-	void animate();
-
-	float slide_time;
 
 public:
 	Menu(sf::Vector2f);
 	~Menu();
 
+	void createMenu();
+	void createButton();
+	
 	void draw(sf::RenderTarget &, sf::RenderStates) const override;
 	void toggle();
 };

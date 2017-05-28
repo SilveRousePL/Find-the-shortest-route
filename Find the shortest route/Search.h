@@ -8,9 +8,9 @@ class Search
 		Graph graph; //Macierz opisuj¹ca schemat po³¹czeñ pomiêdzy wêz³ami
 		int rozmiar; //Okresla rozmiar macierzy
 		int poczatek; //Wêze³ pocz¹tkowy
-		vector <Path> trasa; //Kontener zawieraj¹cy wszystkie mo¿liwe trasy biegn¹ce od wêz³a pocz¹tkowego, generowane
-		vector <Path> wynik; //Gotowa tablica tras najkrótszych.
-		vector <int> _obecna_trasa; //Tablica u¿ytych wêz³ów, zachowuje kolejnoœæ u¿ytych wêz³ów
+		std::vector <Path> trasa; //Kontener zawieraj¹cy wszystkie mo¿liwe trasy biegn¹ce od wêz³a pocz¹tkowego, generowane
+		std::vector <Path> wynik; //Gotowa tablica tras najkrótszych.
+		std::vector <int> _obecna_trasa; //Tablica u¿ytych wêz³ów, zachowuje kolejnoœæ u¿ytych wêz³ów
 
 	public:
 		Search();

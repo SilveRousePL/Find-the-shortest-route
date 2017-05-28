@@ -1,28 +1,14 @@
 #include "Menu.h"
 
-Menu::Menu(sf::Vector2f size) : menu_toggle("Menu", sf::Vector2f(size.x / 3 + 100, 100))
+using namespace std;
+
+Menu::Menu(sf::Vector2f size)
 {
-	this->size = sf::Vector2f(size.x / 3, size.y);
-
-	bar.setSize(this->size);
-	bar.setPosition(sf::Vector2f(0 - bar.getSize().x, 0));
-	bar.setFillColor(sf::Color(255,255,255));
-	bar.setOutlineThickness(3);
-	bar.setOutlineColor(sf::Color(0, 0, 0, 128));
-
-	menu_toggle.setPosition(0 - bar.getSize().x, size.y - 100);
-	menu_toggle.rec.setFillColor(sf::Color(255, 255, 255));
-	menu_toggle.rec.setOutlineThickness(3);
-	menu_toggle.rec.setOutlineColor(sf::Color(0, 0, 0, 128));
-
-	background.setSize(sf::Vector2f(size.x, size.y));
-	background.setPosition(sf::Vector2f(0, 0));
-	//background.setFillColor(sf::Color(255,255,255,0));
-
+	window_size = size;
 	is_show = false;
-	slide = false;
 
-	slide_time = 1.0f;
+	createMenu();
+	createButton();
 }
 
 Menu::~Menu()
@@ -30,83 +16,44 @@ Menu::~Menu()
 
 }
 
+void Menu::createMenu()
+{
+	bar.setSize(sf::Vector2f(window_size.x, 40));
+	bar.setPosition(sf::Vector2f(0, 0));
+	bar.setFillColor(sf::Color(255, 255, 255));
+	bar.setOutlineThickness(1);
+	bar.setOutlineColor(sf::Color(128, 128, 128));
+
+	background.setSize(sf::Vector2f(window_size.x, window_size.y - 40));
+	background.setPosition(sf::Vector2f(0, 40));
+	background.setFillColor(sf::Color(0, 0, 0, 128));
+}
+
+void Menu::createButton()
+{
+	const string name[] = { "Menu", "Add Vertex", "Add Connect", "Remove Vertex", "Remove Connect", "Find the shortest path" };
+	for (int i = 0; i < amount; i++)
+	{
+		Button * tmp = new Button(name[i], sf::Vector2f(120, 40));
+		tmp->setPosition(sf::Vector2f(130 * i, 0));
+		button.push_back(*tmp);
+	}
+}
+
 void Menu::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
 	states.transform *= getTransform();
-	if (is_show || slide)
+	if (is_show)
 	{
 		target.draw(background, states);
 		target.draw(bar, states);
-		for (auto i = button.begin(); i != button.end(); i++)
+		for (auto i = button.begin() + 1; i != button.end(); i++)
 			target.draw(*i, states);
 	}
-	target.draw(menu_toggle, states);
-}
-
-void Menu::animate()
-{
-	float f_time = timer.getElapsedTime().asSeconds();
-	if (f_time < slide_time)
-	{
-		if (is_show) //Chowanie
-		{
-			bar.setPosition(0 - bar.getSize().x * f_time / slide_time, 0);
-			menu_toggle.setPosition(0 - bar.getSize().x * f_time / slide_time, menu_toggle.getPosition().y);
-			background.setFillColor(sf::Color(255, 255, 255, 128 - f_time / slide_time * 128));
-		}
-		else //Pokazywanie
-		{
-			bar.setPosition(0 - bar.getSize().x + bar.getSize().x * f_time / slide_time, 0);
-			menu_toggle.setPosition(0 - bar.getSize().x + bar.getSize().x * f_time / slide_time, menu_toggle.getPosition().y);
-			background.setFillColor(sf::Color(255, 255, 255, f_time / slide_time * 128));
-		}
-	}
-	else
-	{
-		slide = false;
-		if (is_show) is_show = false;
-		else is_show = true;
-	}
+	target.draw(button[0], states);
 }
 
 void Menu::toggle()
 {
-	timer.restart();
-	slide = true;
+	is_show ? is_show = false : is_show = true;
 }
-/*
-void Menu::show()
-{
-	if (timer.getElapsedTime().asSeconds() < slide_time)
-	{
-		bar.setPosition(0 - bar.getSize().x + bar.getSize().x * timer.getElapsedTime().asSeconds() / slide_time, 0);
-		menu_toggle.setPosition(0 - bar.getSize().x + bar.getSize().x * timer.getElapsedTime().asSeconds() / slide_time, menu_toggle.getPosition().y);
-		background.setFillColor(sf::Color(255, 255, 255, timer.getElapsedTime().asSeconds() / slide_time * 128));
-	}
-	else
-	{
-		slide = false;
-		is_show = true;
-	}
-}
-
-void Menu::hide()
-{
-	if (timer.getElapsedTime().asSeconds() < slide_time)
-	{
-		bar.setPosition(0 - bar.getSize().x * timer.getElapsedTime().asSeconds() / slide_time, 0);
-		menu_toggle.setPosition(0 - bar.getSize().x * timer.getElapsedTime().asSeconds() / slide_time, menu_toggle.getPosition().y);
-		background.setFillColor(sf::Color(255, 255, 255, 128 - timer.getElapsedTime().asSeconds() / slide_time * 128));
-	}
-	else
-	{
-		slide = false;
-		is_show = false;
-	}
-}
-
-void Menu::animate()
-{
-	if (!is_show) this->show();
-	else this->hide();
-} */

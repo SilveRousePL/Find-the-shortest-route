@@ -1,11 +1,9 @@
 #pragma once
 #include "ADrawObject.h"
 
-using namespace std;
-
 class Vertex : public ADrawObject
 {
-	string name;
+	std::string name;
 	int x;
 	int y;
 

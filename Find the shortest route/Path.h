@@ -2,11 +2,9 @@
 #include <vector>
 #include "Vertex.h"
 
-using namespace std;
-
 class Path
 {
-	vector<Vertex> vertex;
+	std::vector <Vertex> vertex;
 	int cost;
 
 public:
