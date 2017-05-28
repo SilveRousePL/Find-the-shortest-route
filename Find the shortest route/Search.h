@@ -13,7 +13,8 @@ class Search
 		vector <int> _obecna_trasa; //Tablica u¿ytych wêz³ów, zachowuje kolejnoœæ u¿ytych wêz³ów
 
 	public:
-		Search(int **, int, int);
+		Search();
+		//Search(int **, int, int);
 		~Search();
 
 		Path & getShortestPath(int); //Zwraca trasê do punktu podanego w 1.ARG

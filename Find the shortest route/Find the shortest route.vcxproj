@@ -128,8 +128,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ADrawObject.cpp" />
-    <ClCompile Include="DButton.cpp" />
+    <ClCompile Include="Button.cpp" />
     <ClCompile Include="Connect.cpp" />
+    <ClCompile Include="Exceptions.cpp" />
     <ClCompile Include="File.cpp" />
     <ClCompile Include="SFunction.cpp" />
     <ClCompile Include="Graph.cpp" />
@@ -142,9 +143,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ADrawObject.h" />
-    <ClInclude Include="DButton.h" />
+    <ClInclude Include="Button.h" />
     <ClInclude Include="Connect.h" />
+    <ClInclude Include="Exceptions.h" />
     <ClInclude Include="File.h" />
+    <ClInclude Include="Fonts.h" />
     <ClInclude Include="SFunction.h" />
     <ClInclude Include="Graph.h" />
     <ClInclude Include="Menu.h" />

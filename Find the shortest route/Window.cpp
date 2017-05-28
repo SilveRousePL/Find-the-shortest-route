@@ -2,12 +2,11 @@
 
 using namespace std;
 
-Window::Window() : Window(800, 600) {}
-
-Window::Window(int width, int height)
+Window::Window(int width, int height) : menu(sf::Vector2f(width, height))
 {
-	if (width <= 0 || height <= 0) throw string("B³êdny rozmiar okna");
+	if (width <= 0 || height <= 0) throw string("Incorrect window size");
 	window.create(sf::VideoMode(width, height), "Find the shortest route - 235565");
+	window.setFramerateLimit(60);
 }
 
 Window::~Window()
@@ -15,12 +14,27 @@ Window::~Window()
 
 }
 
+void Window::run()
+{
+	this->mainLoop();
+}
+
 void Window::mainLoop()
 {
 	while (window.isOpen())
 	{
-		window.clear();
+		window.clear(sf::Color(64, 64, 64));
+		eventCheck();
+		animateList();
+		drawList();
+
+		window.display();
 	}
+}
+
+void Window::drawList()
+{
+	window.draw(menu);
 }
 
 void Window::eventCheck()
@@ -31,10 +45,21 @@ void Window::eventCheck()
 		{
 			window.close();
 		}
+		if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::M && !menu.slide)
+		{
+			menu.toggle();
+		}
+		if (event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left)
+		{
+		}
+		if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Middle)
+		{
+			window.close();
+		}
 	}
 }
 
-void Window::buttonRender()
+void Window::animateList()
 {
-	
+	if (menu.slide) menu.animate();
 }

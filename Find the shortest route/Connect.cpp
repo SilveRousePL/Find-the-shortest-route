@@ -2,8 +2,15 @@
 
 Connect::Connect()
 {
+
 }
 
 Connect::~Connect()
 {
+
+}
+
+void Connect::gCreate()
+{
+
 }

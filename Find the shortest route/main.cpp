@@ -1,8 +1,7 @@
 #include <iostream>
-#include <string>
-#include "Graph.h"
 #include "Window.h"
-#include <windows.h>
+#include "Graph.h"
+#include "Exceptions.h"
 
 using namespace std;
 
@@ -10,14 +9,17 @@ int main()
 {
 	try
 	{
-		Window win(0,0);
-		win.mainLoop();
+		Window win(1024,768);
+		win.run();
 	}
-	catch(string & e)
+	catch(CriticalException & e)
 	{
-		MessageBox(nullptr, 
-			("Exception occurred and application will be closed.\n" + e).c_str(), 
-			"Error, exception occurred", MB_ICONERROR | MB_DEFBUTTON1);
+		e.sysWindow();
+	}
+	catch(...)
+	{
+		CriticalException e("Unknown error");
+		e.sysWindow();
 	}
 	return 0;
 }

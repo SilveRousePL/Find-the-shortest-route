@@ -45,10 +45,13 @@
     <ClCompile Include="SFunction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DButton.cpp">
+    <ClCompile Include="ADrawObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ADrawObject.cpp">
+    <ClCompile Include="Button.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Exceptions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -80,10 +83,16 @@
     <ClInclude Include="SFunction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DButton.h">
+    <ClInclude Include="ADrawObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ADrawObject.h">
+    <ClInclude Include="Button.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Exceptions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Fonts.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

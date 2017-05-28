@@ -1,6 +1,6 @@
 #pragma once
 #include "Graph.h"
-#include "DButton.h"
+#include "Menu.h"
 #include <SFML/Graphics.hpp>
 
 using namespace std;
@@ -9,16 +9,20 @@ class Window
 {
 	sf::RenderWindow window;
 	sf::Event event;
+	sf::Clock clock;
 
-	Graph graph;
-	Button * button;
+	Graph * graph;
+	Menu menu;
 
 public:
-	Window();
-	Window(int, int);
+	Window(int=800, int=600);
 	~Window();
 
+	void run();
+
+private:
 	void mainLoop(); //G³ówna pêtla programu
+	void drawList(); //Lista elementów do rysowania
 	void eventCheck(); //Obs³uga zdarzeñ
-	void buttonRender();
+	void animateList(); //Lista elementów do animacji
 };
