@@ -10,25 +10,29 @@ protected:
 
 public:
 	Exceptions(std::string);
+	virtual ~Exceptions() = default;
 
 	std::string what() const;
-	void sysWindow() const;
+	virtual void sysWindow() const = 0;
 };
 
 class CriticalException : public Exceptions
 {
 public:
 	CriticalException(std::string comm);
+	void sysWindow() const override;
 };
 
 class WarningException : public Exceptions
 {
 public:
 	WarningException(std::string comm);
+	void sysWindow() const override;
 };
 
-class InfoException : public Exceptions
+class Info : public Exceptions
 {
 public:
-	InfoException(std::string comm);
+	Info(std::string comm);
+	void sysWindow() const override;
 };

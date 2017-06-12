@@ -1,23 +1,15 @@
 #pragma once
-#include <vector>
-#include "Graph.h"
-#include "Menu.h"
 #include <SFML/Graphics.hpp>
-#include <TGUI/TGUI.hpp>
-
-enum objects;
+#include "ResourceManager.h"
+#include "GraphUI.h"
 
 class Window
 {
 	sf::RenderWindow window;
 	sf::Event event;
-	sf::Clock clock;
+	ResourceManager resource;
 
-	Menu menu;
 	Graph * graph;
-	
-	objects indicated_object;
-	objects recently_indicated_object;
 
 public:
 	Window(int=800, int=600);
@@ -26,20 +18,7 @@ public:
 	void run();
 
 private:
-	void mainLoop(); //G³ówna pêtla programu
-	void drawList(); //Lista elementów do rysowania
+	void render(); //G³ówna pêtla programu
 	void eventCheck(); //Obs³uga zdarzeñ
 	void mouseOver(); //
-};
-
-enum objects
-{
-	NOTHING,
-	MENU_BUTTON,
-	ADD_VERTEX_BUTTON,
-	ADD_CONNECT_BUTTON,
-	REMOVE_VERTEX_BUTTON,
-	REMOVE_CONNECT_BUTTON,
-	FIND_BUTTON,
-	BACKGROUND_MENU,
 };

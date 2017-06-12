@@ -16,10 +16,10 @@ int main()
 	{
 		e.sysWindow();
 	}
-	catch(...)
+	/*catch(...)
 	{
 		CriticalException e("Unknown error");
 		e.sysWindow();
-	}
+	}*/
 	return 0;
 }

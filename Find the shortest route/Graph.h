@@ -1,16 +1,21 @@
 #pragma once
 #include <vector>
 #include "Vertex.h"
-#include "Connect.h"
 #include "Path.h"
 
-class Graph
+class Graph : public sf::Drawable, sf::Transformable
 {
 	std::vector <Vertex> vertex;
-	std::vector <Connect> connect;
 
 public:
 	Graph();
 	~Graph();
-};
 
+	void draw(sf::RenderTarget &, sf::RenderStates) const final;
+
+	void addVertex(Vertex);
+	void addConnect();
+
+	size_t getSize() const;
+	Path getShortestPath();
+};

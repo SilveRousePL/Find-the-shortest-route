@@ -17,7 +17,7 @@ Button::Button(string name, sf::Vector2f size, int font_size)
 	text.setCharacterSize(font_size);
 	text.setString(name);
 	text.setFillColor(sf::Color(0, 0, 0));
-	text.move(sf::Vector2f((size.x - text.getGlobalBounds().width) / 2, (size.y - text.getCharacterSize()) / 2 ));
+	
 
 	is_hover = false;
 }

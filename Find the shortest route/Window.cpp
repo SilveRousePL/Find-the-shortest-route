@@ -2,14 +2,11 @@
 
 using namespace std;
 
-Window::Window(int width, int height) : menu(sf::Vector2f(width, height))
+Window::Window(int width, int height)
 {
 	if (width <= 0 || height <= 0) throw string("Incorrect window size");
 	window.create(sf::VideoMode(width, height), "Find the shortest route - 235565");
 	window.setFramerateLimit(60);
-	
-	indicated_object = NOTHING;
-	recently_indicated_object = NOTHING;
 }
 
 Window::~Window()
@@ -19,55 +16,18 @@ Window::~Window()
 
 void Window::run()
 {
-	this->mainLoop();
+	render();
 }
 
-void Window::mainLoop()
+void Window::render()
 {
 	while (window.isOpen())
 	{
 		window.clear(sf::Color(64, 64, 64));
-		recently_indicated_object = indicated_object;
-		indicated_object = NOTHING;
-
-		mouseOver();
 		eventCheck();
-		drawList();
-
+		window.draw(graph);
 		window.display();
 	}
-}
-
-void Window::drawList()
-{
-	window.draw(menu);
-}
-
-void Window::mouseOver()
-{
-		if (menu.button[0].rec.getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition(window))))
-		{
-			indicated_object = MENU_BUTTON;
-			return;
-		}
-
-		if (menu.button[1].rec.getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition(window))))
-		{
-			indicated_object = ADD_VERTEX_BUTTON;
-			return;
-		}
-
-		if (menu.button[2].rec.getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition(window))))
-		{
-			indicated_object = ADD_CONNECT_BUTTON;
-			return;
-		}
-
-		if (menu.background.getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition(window))) && menu.is_show)
-		{
-			indicated_object = BACKGROUND_MENU;
-			return;
-		}
 }
 
 void Window::eventCheck()
@@ -80,7 +40,7 @@ void Window::eventCheck()
 		}
 		if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::M)
 		{
-			menu.toggle();
+
 		}
 		
 		if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Middle)
@@ -88,6 +48,7 @@ void Window::eventCheck()
 			window.close();
 		}
 
+		/*
 		switch (indicated_object)
 		{
 		case MENU_BUTTON:
@@ -112,5 +73,6 @@ void Window::eventCheck()
 		{
 			menu.button[recently_indicated_object].hover(false);
 		}
+		*/
 	}
 }

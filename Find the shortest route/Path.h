@@ -5,12 +5,12 @@
 class Path
 {
 	std::vector <Vertex> vertex;
-	int cost;
+	size_t cost;
 
 public:
 	Path();
 	~Path();
 
-	int GetCost();
+	size_t getCost() const;
 };
 
