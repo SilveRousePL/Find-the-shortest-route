@@ -39,7 +39,7 @@ void Connect::update()
 
 void Connect::setCost(string cost)
 {
-	if (cost[cost.length()-1] == 6 || cost[cost.length() - 1] == 9) cost += ".";
+	if (cost[cost.length()-1] == '6' || cost[cost.length() - 1] == '9') cost += ".";
 	this->cost.setString(cost);
 	this->cost.setPosition(sf::Vector2f(length - this->cost.getGlobalBounds().width / 2, -1 * this->cost.getCharacterSize() - 5));
 
@@ -65,5 +65,5 @@ double Connect::calcAngle() const
 	double ly = vertex_end->getPosition().y - vertex_begin->getPosition().y;
 	double lx = vertex_end->getPosition().x - vertex_begin->getPosition().x;
 	if (lx == 0) return -90;
-	return -atan(ly / lx) * (180 / 3.14159265359);
+	return -atan(ly / lx) * (180 / M_PI);
 }

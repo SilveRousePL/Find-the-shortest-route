@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Vertex::Vertex(sf::Vector2f position, sf::Font font, string name)
+Vertex::Vertex(uint8_t id, sf::Vector2f position, string name) : id(id)
 {
 	setPosition(position);
 	setColor(sf::Color(255, 255, 255));
@@ -11,12 +11,11 @@ Vertex::Vertex(sf::Vector2f position, sf::Font font, string name)
 	shape.setOutlineThickness(1);
 	shape.setOutlineColor(sf::Color(0, 0, 0));
 
-	text.setFont(font);
 	text.setFillColor(sf::Color(0, 0, 0));
 	setName(name);
 }
 
-Vertex::Vertex(float x, float y, sf::Font font, string name) : Vertex(sf::Vector2f(x, y), font, name) {}
+Vertex::Vertex(uint8_t id, float x, float y, string name) : Vertex(id, sf::Vector2f(x, y), name) {}
 
 Vertex::~Vertex()
 {
@@ -45,8 +44,15 @@ void Vertex::setPosition(float x, float y)
 	setPosition(sf::Vector2f(x, y));
 }
 
+void Vertex::setFont(sf::Font & _font)
+{
+	this->font = &_font;
+	text.setFont(*font);
+}
+
 void Vertex::setName(std::string name)
 {
+	text.setFont(*font);
 	text.setString(name);
 }
 

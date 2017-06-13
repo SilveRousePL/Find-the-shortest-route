@@ -23,9 +23,9 @@ void Window::render()
 {
 	while (window.isOpen())
 	{
-		window.clear(sf::Color(64, 64, 64));
+		window.clear(sf::Color(192, 192, 192));
 		eventCheck();
-		window.draw(graph);
+		window.draw(*graph);
 		window.display();
 	}
 }

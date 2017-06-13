@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Array2D.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Connect.cpp" />
     <ClCompile Include="ConsoleMenu.cpp" />
@@ -142,6 +143,7 @@
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Array2D.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Connect.h" />
     <ClInclude Include="ConsoleMenu.h" />

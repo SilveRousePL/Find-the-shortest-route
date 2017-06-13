@@ -1,7 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "ResourceManager.h"
-#include "GraphUI.h"
+#include "Graph.h"
 
 class Window
 {

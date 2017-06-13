@@ -1,5 +1,6 @@
 #pragma once
 #include <fstream>
+#include <windows.h>
 #include <string>
 #include "Graph.h"
 #include "Exceptions.h"
@@ -7,9 +8,7 @@
 class File
 {
 	std::fstream handle;
-	std::string filename;
-	Graph * graph;
-	int ** data;
+	std::string file_path_;
 
 public:
 	File(std::string);

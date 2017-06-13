@@ -4,13 +4,13 @@
 
 class Path
 {
-	std::vector <Vertex> vertex;
-	size_t cost;
+	std::vector <Vertex*> vertex;
+	uint8_t cost;
 
 public:
-	Path();
+	Path(std::vector <uint8_t> & id_vertex, uint8_t cost);
 	~Path();
 
-	size_t getCost() const;
+	uint8_t getCost() const;
 };
 
