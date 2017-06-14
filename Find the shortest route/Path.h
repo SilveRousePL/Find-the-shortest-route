@@ -4,7 +4,7 @@
 
 class Path
 {
-	std::vector <Vertex*> vertex;
+	std::vector <uint8_t> vertex;
 	uint8_t cost;
 
 public:

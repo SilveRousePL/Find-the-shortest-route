@@ -29,17 +29,27 @@ void Vertex::draw(sf::RenderTarget & target, sf::RenderStates states) const
 	target.draw(text, states);
 }
 
-sf::Vector2f Vertex::getPosition() const
+uint8_t Vertex::getID() const
+{
+	return id;
+}
+
+string Vertex::getName() const
+{
+	return text.getString();
+}
+
+sf::Vector2f Vertex::getPos() const
 {
 	return position;
 }
 
-void Vertex::setPosition(sf::Vector2f position)
+void Vertex::setPos(sf::Vector2f position)
 {
 	this->position = position;
 }
 
-void Vertex::setPosition(float x, float y)
+void Vertex::setPos(float x, float y)
 {
 	setPosition(sf::Vector2f(x, y));
 }

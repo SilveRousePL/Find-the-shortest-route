@@ -17,10 +17,12 @@ public:
 
 	void draw(sf::RenderTarget &, sf::RenderStates) const final;
 
-	sf::Vector2f getPosition() const;
+	uint8_t getID() const;
+	std::string getName() const;
+	sf::Vector2f getPos() const;
 
-	void setPosition(sf::Vector2f position);
-	void setPosition(float x, float y);
+	void setPos(sf::Vector2f position);
+	void setPos(float x, float y);
 	void setFont(sf::Font & font);
 	void setName(std::string name);
 	void setColor(sf::Color color);

@@ -23,7 +23,7 @@ public:
 	void update();
 
 	void setCost(std::string cost);
-	void setColor(sf::Color color, float outline_thickness = 10);
+	void setColor(sf::Color color);
 
 private:
 	double calcLength() const;

@@ -127,14 +127,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Array2D.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Connect.cpp" />
     <ClCompile Include="ConsoleMenu.cpp" />
     <ClCompile Include="Exceptions.cpp" />
     <ClCompile Include="File.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
-    <ClCompile Include="SFunction.cpp" />
     <ClCompile Include="Graph.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Path.cpp" />
@@ -143,14 +141,12 @@
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Array2D.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Connect.h" />
     <ClInclude Include="ConsoleMenu.h" />
     <ClInclude Include="Exceptions.h" />
     <ClInclude Include="File.h" />
     <ClInclude Include="ResourceManager.h" />
-    <ClInclude Include="SFunction.h" />
     <ClInclude Include="Graph.h" />
     <ClInclude Include="Path.h" />
     <ClInclude Include="Search.h" />

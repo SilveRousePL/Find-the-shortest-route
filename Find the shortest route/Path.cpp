@@ -10,7 +10,7 @@ Path::~Path()
 
 }
 
-size_t Path::getCost() const
+uint8_t Path::getCost() const
 {
 	return cost;
 }

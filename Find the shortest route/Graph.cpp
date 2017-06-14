@@ -2,7 +2,6 @@
 
 Graph::Graph()
 {
-	vertex.push_back(Vertex(20, 20));
 	vertex.push_back(Vertex(60, 20));
 	vertex.push_back(Vertex(20, 40));
 	vertex.push_back(Vertex(60, 50));
@@ -22,7 +21,8 @@ void Graph::draw(sf::RenderTarget & target, sf::RenderStates states) const
 
 void Graph::addVertex(Vertex vertex)
 {
-
+	this->vertex.push_back(vertex);
+	this->vertex.back(Vertex()).
 }
 
 void Graph::addConnect(Vertex* begin, Vertex* end)
@@ -40,6 +40,11 @@ void Graph::remConnect(uint8_t id_begin, uint8_t id_end)
 
 }
 
+void Graph::eraseGraph()
+{
+
+}
+
 Path Graph::findShortestPath()
 {
 
@@ -52,5 +57,5 @@ size_t Graph::getSize() const
 
 std::vector<std::vector<uint8_t>> Graph::getMatrix() const
 {
-	return n_matrix;
+	return neighbor_matrix;
 }

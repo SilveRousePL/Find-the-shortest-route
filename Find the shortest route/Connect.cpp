@@ -10,6 +10,7 @@ Connect::Connect(Vertex * begin, Vertex * end, sf::Font font, string cost) : ver
 	setCost(cost);
 
 	line.setFillColor(sf::Color(0, 0, 0));
+	line.setOutlineThickness(10);
 
 	update();
 }
@@ -31,7 +32,7 @@ void Connect::update()
 	length = calcLength();
 	angle = calcAngle();
 
-	line.setPosition(vertex_begin->getPosition());
+	line.setPosition(vertex_begin->getPos());
 	line.setSize(sf::Vector2f(length, 2));
 
 	this->setRotation(angle);
@@ -47,23 +48,22 @@ void Connect::setCost(string cost)
 	//text.move(sf::Vector2f((size.x - text.getGlobalBounds().width) / 2, (size.y - text.getCharacterSize()) / 2));
 }
 
-void Connect::setColor(sf::Color color, float outline_thickness=10)
+void Connect::setColor(sf::Color color)
 {
-	line.setOutlineThickness(outline_thickness);
 	line.setOutlineColor(color);
 }
 
 double Connect::calcLength() const
 {
-	double tmp = (vertex_end->getPosition().x - vertex_begin->getPosition().x)*(vertex_end->getPosition().x - vertex_begin->getPosition().x) + (vertex_end->getPosition().y - vertex_begin->getPosition().y)*(vertex_end->getPosition().y - vertex_begin->getPosition().y);
+	double tmp = (vertex_end->getPos().x - vertex_begin->getPos().x)*(vertex_end->getPos().x - vertex_begin->getPos().x) + (vertex_end->getPos().y - vertex_begin->getPos().y)*(vertex_end->getPos().y - vertex_begin->getPos().y);
 	if (tmp < 0) throw CriticalException("The argument of sqrt() is less than zero. (ConnectUI.cpp)");
 	return sqrt(tmp);
 }
 
 double Connect::calcAngle() const
 {
-	double ly = vertex_end->getPosition().y - vertex_begin->getPosition().y;
-	double lx = vertex_end->getPosition().x - vertex_begin->getPosition().x;
+	double ly = vertex_end->getPos().y - vertex_begin->getPos().y;
+	double lx = vertex_end->getPos().x - vertex_begin->getPos().x;
 	if (lx == 0) return -90;
 	return -atan(ly / lx) * (180 / M_PI);
 }
