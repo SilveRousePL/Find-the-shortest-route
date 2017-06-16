@@ -2,20 +2,23 @@
 
 using namespace std;
 
-Vertex::Vertex(uint8_t id, sf::Vector2f position, string name) : id(id)
+Vertex::Vertex(sf::Vector2f position, sf::Font & font, string name)
 {
-	setPosition(position);
+	setPos(position);
 	setColor(sf::Color(255, 255, 255));
 
-	shape.setRadius(30);
-	shape.setOutlineThickness(1);
+	shape.setRadius(20);
+	shape.setOutlineThickness(2);
 	shape.setOutlineColor(sf::Color(0, 0, 0));
+	shape.setOrigin(shape.getRadius(), shape.getRadius());
 
+	text.setFont(font);
+	text.setCharacterSize(14);
 	text.setFillColor(sf::Color(0, 0, 0));
 	setName(name);
 }
 
-Vertex::Vertex(uint8_t id, float x, float y, string name) : Vertex(id, sf::Vector2f(x, y), name) {}
+Vertex::Vertex(float x, float y, sf::Font & font, string name) : Vertex(sf::Vector2f(x, y), font, name) {}
 
 Vertex::~Vertex()
 {
@@ -29,11 +32,6 @@ void Vertex::draw(sf::RenderTarget & target, sf::RenderStates states) const
 	target.draw(text, states);
 }
 
-uint8_t Vertex::getID() const
-{
-	return id;
-}
-
 string Vertex::getName() const
 {
 	return text.getString();
@@ -41,29 +39,23 @@ string Vertex::getName() const
 
 sf::Vector2f Vertex::getPos() const
 {
-	return position;
+	return shape.getPosition();
 }
 
-void Vertex::setPos(sf::Vector2f position)
+sf::CircleShape Vertex::getShape() const
 {
-	this->position = position;
+	return shape;
 }
 
-void Vertex::setPos(float x, float y)
+void Vertex::setName(string name)
 {
-	setPosition(sf::Vector2f(x, y));
-}
-
-void Vertex::setFont(sf::Font & _font)
-{
-	this->font = &_font;
-	text.setFont(*font);
-}
-
-void Vertex::setName(std::string name)
-{
-	text.setFont(*font);
 	text.setString(name);
+}
+
+void Vertex::setPos(sf::Vector2f pos)
+{
+	shape.setPosition(pos);
+	text.setPosition(pos);
 }
 
 void Vertex::setColor(sf::Color color)

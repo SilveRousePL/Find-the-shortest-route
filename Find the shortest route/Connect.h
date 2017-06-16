@@ -6,9 +6,8 @@
 
 class Connect : public sf::Drawable, public sf::Transformable
 {
-	//UI
-	Vertex * vertex_begin;
-	Vertex * vertex_end;
+	int id_begin;
+	int id_end;
 	sf::RectangleShape line;
 	sf::Text cost;
 
@@ -16,16 +15,17 @@ class Connect : public sf::Drawable, public sf::Transformable
 	float angle;
 
 public:
-	Connect(Vertex * begin, Vertex * end, sf::Font font, std::string cost="NaN");
+	Connect(int id_begin, int id_end, sf::Font & font, unsigned int cost);
 	~Connect();
 
 	void draw(sf::RenderTarget &, sf::RenderStates) const final;
-	void update();
+	void update(Vertex& vertex_begin, Vertex& vertex_end);
+	double calcLength(Vertex & vertex_begin, Vertex & vertex_end) const;
+	double calcAngle(Vertex & vertex_begin, Vertex & vertex_end) const;
+	void changeID(int id_begin);
 
-	void setCost(std::string cost);
+	sf::Vector2i getVertexID() const;
+	sf::RectangleShape getShape() const;
+	void setCost(unsigned int c);
 	void setColor(sf::Color color);
-
-private:
-	double calcLength() const;
-	double calcAngle() const;
 };

@@ -1,15 +1,18 @@
 #pragma once
 #include <vector>
 #include "Vertex.h"
+#include "Connect.h"
 #include "Path.h"
-#include "File.h"
+#include "Search.h"
 
-class Graph : public sf::Drawable, sf::Transformable
+class Graph : public sf::Drawable, public sf::Transformable
 {
-	File * file;
+	typedef std::vector<std::vector<int>> Matrix;
+	Matrix neighbor;
 	std::vector <Vertex> vertex;
-	std::vector <std::vector <uint8_t>> neighbor_matrix;
-	size_t size;
+	std::vector <Connect> connect;
+	Path * shortest_path;
+	sf::Font font;
 
 public:
 	Graph();
@@ -17,16 +20,27 @@ public:
 
 	void draw(sf::RenderTarget &, sf::RenderStates) const final;
 
-	void addVertex(Vertex vertex);
-	void addConnect(Vertex * begin, Vertex * end);
-	void remVertex(uint8_t id);
-	void remConnect(uint8_t id_begin, uint8_t id_end);
-	void eraseGraph();
-	Path findShortestPath();
+	void newGraph();
+	void addVertex(sf::Vector2f pos);
+	void addConnect(int id_begin, int id_end, unsigned int cost);
+	void remVertex(int id_vertex);
+	void remConnect(int id_connect);
+	void findShortestPath(int id_begin, int id_end);
 
 	size_t getSize() const;
-	std::vector <std::vector <uint8_t>> getMatrix() const;
+	std::vector <Vertex> getVertex() const;
+	Matrix getMatrix() const;
+	int getIDConnectByVertexsID(int id_begin, int id_end) const;
 
-	void loadFromFile();
-	void saveToFile();
+	void setVertexPosition(int id, sf::Vector2f position);
+	void setFont(sf::Font font);
+	void setColorV(int id, sf::Color color);
+	void setColorC(int id, sf::Color color);
+	void coloringPath(Path path, sf::Color color);
+
+	int detectVertex(sf::Vector2f position);
+	int detectConnect(sf::Vector2f position);
+	void refreshConnects();
+
+	void deletePath();
 };

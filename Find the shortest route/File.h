@@ -8,21 +8,20 @@
 class File
 {
 	std::fstream handle;
+	Graph * graph;
 	std::string file_path_;
 
 public:
-	File(std::string);
+	File(Graph & graph);
 	~File();
 
-	Graph open();
-	bool save(Graph);
-
-	bool isCorrect();
-	std::string getFilename() const;
-	void setFilename(std::string);
-	int ** getData() const;
-	int getAmount() const;
+	void load();
+	void save();
+	bool isGood() const;;
 	
 private:
-	void _completeGraph();
+	std::string fileOpenDialog();
+	std::string fileSaveDialog();
+	int parseFile();
+	void createFile();
 };

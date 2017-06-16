@@ -1,16 +1,14 @@
 #pragma once
 #include <vector>
-#include "Vertex.h"
 
 class Path
 {
-	std::vector <uint8_t> vertex;
-	uint8_t cost;
+	std::vector <int> vertex;
+	int cost;
 
 public:
-	Path(std::vector <uint8_t> & id_vertex, uint8_t cost);
+	Path(std::vector <int> & id_vertex, int cost);
 	~Path();
-
-	uint8_t getCost() const;
+	std::vector<int> getPath() const;
+	int getCost() const;
 };
-

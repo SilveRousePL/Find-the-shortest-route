@@ -1,94 +1,134 @@
 #include "File.h"
+#include <sstream>
 
 using namespace std;
 
-File::File(string filename)
-{
-	setFilename(filename);
-}
+File::File(Graph & graph)
+	: graph(&graph), file_path_("")
+{}
 
 File::~File()
 {
-	if (handle.good()) handle.close();
+	if (isGood()) handle.close();
 }
 
-Graph File::open()
+void File::load()
+{
+	file_path_ = fileOpenDialog();
+	if (isGood()) handle.close();
+	handle.open(file_path_, ios::in);
+	if (isGood() && graph != nullptr)
+	{
+		if (parseFile() == 0) throw WarningException("Failed to open file");
+	}
+	else throw WarningException("Failed to open file");
+}
+
+void File::save()
+{
+	if (!isGood())
+	{
+		file_path_ = fileSaveDialog();
+		handle.open(file_path_, ios::out | ios::trunc);
+		if (!isGood()) throw WarningException("Failed to save file");
+	}
+	createFile();
+}
+
+bool File::isGood() const
+{
+	return handle.good();
+}
+
+string File::fileOpenDialog()
 {
 	OPENFILENAME ofn;
-	ZeroMemory(&file_path_, sizeof(file_path_));
+	char sFilename[MAX_PATH] = "";
 	ZeroMemory(&ofn, sizeof(ofn));
 	ofn.lStructSize = sizeof(ofn);
-	ofn.hwndOwner = NULL;  // If you have a window to center over, put its HANDLE here
-	ofn.lpstrFilter = "Text Files\0*.txt\0Any File\0*.*\0";
-	//ofn.lpstrFile = filename;
+	ofn.lpstrFilter = "Graph Files (*.grh)\0*.grh\0Text Files (*.txt)\0*.txt\0All Files\0*.*\0";
 	ofn.nMaxFile = MAX_PATH;
-	ofn.lpstrTitle = "Select a File, yo!";
-	ofn.Flags = OFN_DONTADDTORECENT | OFN_FILEMUSTEXIST;
-
-	if (GetOpenFileNameA(&ofn))
-	{
-		std::cout << "You chose the file \"" << file_path_ << "\"\n";
-	}
-	else
-	{
-		// All this stuff below is to tell you exactly how you messed up above. 
-		// Once you've got that fixed, you can often (not always!) reduce it to a 'user cancelled' assumption.
-		switch (CommDlgExtendedError())
-		{
-		case CDERR_DIALOGFAILURE: std::cout << "CDERR_DIALOGFAILURE\n";   break;
-		case CDERR_FINDRESFAILURE: std::cout << "CDERR_FINDRESFAILURE\n";  break;
-		case CDERR_INITIALIZATION: std::cout << "CDERR_INITIALIZATION\n";  break;
-		case CDERR_LOADRESFAILURE: std::cout << "CDERR_LOADRESFAILURE\n";  break;
-		case CDERR_LOADSTRFAILURE: std::cout << "CDERR_LOADSTRFAILURE\n";  break;
-		case CDERR_LOCKRESFAILURE: std::cout << "CDERR_LOCKRESFAILURE\n";  break;
-		case CDERR_MEMALLOCFAILURE: std::cout << "CDERR_MEMALLOCFAILURE\n"; break;
-		case CDERR_MEMLOCKFAILURE: std::cout << "CDERR_MEMLOCKFAILURE\n";  break;
-		case CDERR_NOHINSTANCE: std::cout << "CDERR_NOHINSTANCE\n";     break;
-		case CDERR_NOHOOK: std::cout << "CDERR_NOHOOK\n";          break;
-		case CDERR_NOTEMPLATE: std::cout << "CDERR_NOTEMPLATE\n";      break;
-		case CDERR_STRUCTSIZE: std::cout << "CDERR_STRUCTSIZE\n";      break;
-		case FNERR_BUFFERTOOSMALL: std::cout << "FNERR_BUFFERTOOSMALL\n";  break;
-		case FNERR_INVALIDFILENAME: std::cout << "FNERR_INVALIDFILENAME\n"; break;
-		case FNERR_SUBCLASSFAILURE: std::cout << "FNERR_SUBCLASSFAILURE\n"; break;
-		default: std::cout << "You cancelled.\n";
-		}
-	}
-
-	handle.open(file_path_, ios::in);
-	if (!handle.good()) throw WarningException("Failed to open file: " + file_path_);
+	ofn.lpstrFile = sFilename;
+	ofn.lpstrDefExt = "grh";
+	ofn.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY;
+	if (!GetOpenFileName(&ofn)) throw Info("Load canceled");
+	return ofn.lpstrFile;
 }
 
-void File::setFilename(string filename)
+string File::fileSaveDialog()
 {
-	if (filename.length() > 0) this->file_path_ = filename;
-	else throw WarningException("Filename is wrong");
+	OPENFILENAME ofn;
+	char sFilename[MAX_PATH] = "";
+	ZeroMemory(&ofn, sizeof(ofn));
+	ofn.lStructSize = sizeof(ofn);
+	ofn.lpstrFilter = "Graph File (*.grh)\0*.grh\0Text File (*.txt)\0*.txt\0";
+	ofn.nMaxFile = MAX_PATH;
+	ofn.lpstrFile = sFilename;
+	ofn.lpstrDefExt = "grh";
+	ofn.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY;
+	if (!GetSaveFileName(&ofn)) throw Info("Save canceled");
+	return ofn.lpstrFile;
 }
 
-bool File::isCorrect()
+int File::parseFile()
 {
-	if (!handle.good()) return false;
-
+	if (!isGood()) return 0;
+	handle.seekg(0);
+	vector<string> file_v;
+	vector<string> file_m;
 	string tmp;
-	int n = 0;
-	while (!handle.eof())
+	for (int i = 0; !handle.eof(); i++)
 	{
 		getline(handle, tmp);
-		n++;
-	}
-	handle.seekg(0, ios::beg);
-	if (n <= 0) return false;
-
-
-	return true;
-}
-/*
-void Plik::_wczytaj()
-{
-	for (int i = 0; i < rozmiar; i++)
-		for (int j = 0; j < rozmiar; j++)
+		if (tmp[0] == 'V' || tmp[0] == 'v')
 		{
-			string tmp = "-1";
-			p >> tmp;
-			dane[i][j] = atoi(tmp.c_str());
+			tmp[0] = ' ';
+			file_v.push_back(tmp);
 		}
-}*/
+		if (tmp[0] == 'M' || tmp[0] == 'm')
+		{
+			tmp[0] = ' ';
+			file_m.push_back(tmp);
+		}
+	}
+	handle.seekg(0);
+	if (file_v.size() != file_m.size()) return 0;
+	
+	stringstream ss;
+	for (int i = 0; i < file_v.size(); i++)
+	{
+		ss.clear();
+		float x = 0, y = 0;
+		ss << file_v[i];
+		ss >> x >> y;
+		graph->addVertex(sf::Vector2f(x, y));
+	}
+	for (int i = 0; i < file_m.size(); i++)
+	{
+		ss.clear();
+		ss << file_m[i];
+		for (int j = 0; j < file_m.size(); j++)
+		{
+			float x = 0;
+			ss >> x;
+			graph->addConnect(i, j, x);
+		}
+	}
+	return file_v.size();
+}
+
+void File::createFile()
+{
+	for (int i = 0; i < graph->getSize(); i++)
+	{
+		handle << "V " << graph->getVertex()[i].getPos().x << " " << graph->getVertex()[i].getPos().y << endl;
+	}
+	handle << endl;
+	for (int i = 0; i < graph->getSize(); i++)
+	{
+		handle << "M ";
+		for (int j = 0; j < graph->getSize(); j++)
+			handle << graph->getMatrix()[i][j] << " ";
+		handle << endl;
+	}
+}

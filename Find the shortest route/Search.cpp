@@ -3,17 +3,21 @@
 
 using namespace std;
 
-Search::Search(Graph graph, uint8_t id_begin, uint8_t id_end) : size(graph.getSize()), id_begin(id_begin), id_end(id_end)
+Search::Search(Matrix & neighbor_matrix, int id_begin, int id_end) : size(neighbor_matrix.size()), id_begin(id_begin), id_end(id_end)
 {
 	if (size < 2) throw WarningException("Graph is too little");
 
-	generateVertexMap_();
-
-	neighbor_matrix = new uint8_t *[size];
+	this->neighbor_matrix = new int *[size];
 	for (auto i = 0; i < size; i++)
-		neighbor_matrix[i] = new uint8_t[size];
+		this->neighbor_matrix[i] = new int[size];
+
+	for (auto i = 0; i < size; i++)
+		for (auto j = 0; j < size; j++)
+			this->neighbor_matrix[i][j] = neighbor_matrix[i][j];
 
 	tmp_path_.reserve(size);
+
+	generateVertexMap_();
 
 	useVertex_(id_begin);
 	look_(0, 0, id_begin);
@@ -35,7 +39,7 @@ Path Search::getShortestPath() const
 	return *result;
 }
 
-void Search::look_(uint8_t deep, uint8_t sum, uint8_t current)
+void Search::look_(int deep, int sum, int current)
 {
 	for (auto i = 0; i < size; i++)
 	{
@@ -65,10 +69,10 @@ void Search::look_(uint8_t deep, uint8_t sum, uint8_t current)
 
 void Search::generateVertexMap_()
 {
-	vertex_map = new uint8_t *[size];
+	vertex_map = new int *[size];
 	for (auto i = 0; i < size; i++)
-		vertex_map[i] = new uint8_t[size];
-	auto * vertex_cost = new uint8_t[size];
+		vertex_map[i] = new int[size];
+	auto * vertex_cost = new int[size];
 
 	for (auto id_vertex = 0; id_vertex < size; id_vertex++)
 	{
@@ -100,20 +104,20 @@ void Search::generateVertexMap_()
 	delete[] vertex_cost;
 }
 
-void Search::useVertex_(uint8_t x)
+void Search::useVertex_(int x)
 {
 	if (isUsedVertex_(x)) releaseVertex_(x);
 	tmp_path_.push_back(x);
 }
 
-bool Search::isUsedVertex_(uint8_t x) const
+bool Search::isUsedVertex_(int x) const
 {
 	for (auto i = 0; i < tmp_path_.size(); i++)
 		if (tmp_path_[i] == x) return true;
 	return false;
 }
 
-void Search::releaseVertex_(uint8_t x)
+void Search::releaseVertex_(int x)
 {
 	for (auto i = tmp_path_.begin(); i != tmp_path_.end(); i++)
 		if (*i == x)
