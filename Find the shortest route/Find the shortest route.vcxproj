@@ -128,7 +128,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Button.cpp" />
     <ClCompile Include="Connect.cpp" />
     <ClCompile Include="Exceptions.cpp" />
     <ClCompile Include="File.cpp" />
@@ -140,7 +139,6 @@
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Button.h" />
     <ClInclude Include="Connect.h" />
     <ClInclude Include="Exceptions.h" />
     <ClInclude Include="File.h" />

@@ -1,4 +1,5 @@
 #pragma once
+#include <sstream>
 #include <vector>
 
 class Path
@@ -11,4 +12,6 @@ public:
 	~Path();
 	std::vector<int> getPath() const;
 	int getCost() const;
+
+	friend std::ostream & operator <<(std::ostream & ostr, Path obj);
 };

@@ -1,7 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <windows.h>
-#include <tchar.h>
 #include "Graph.h"
 #include "File.h"
 #include "enumTypes.h"
@@ -10,6 +9,7 @@ class Window
 {
 	sf::RenderWindow window;
 	sf::Event event;
+	sf::Clock clock;
 	sf::Font font;
 	Graph * graph;
 	File * file;

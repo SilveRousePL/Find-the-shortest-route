@@ -3,17 +3,17 @@
 
 using namespace std;
 
-Search::Search(Matrix & neighbor_matrix, int id_begin, int id_end) : size(neighbor_matrix.size()), id_begin(id_begin), id_end(id_end)
+Search::Search(Matrix & adjacency_matrix, int id_begin, int id_end) : size(adjacency_matrix.size()), id_begin(id_begin), id_end(id_end)
 {
 	if (size < 2) throw WarningException("Graph is too little");
 
-	this->neighbor_matrix = new int *[size];
+	this->adjacency_matrix = new int *[size];
 	for (auto i = 0; i < size; i++)
-		this->neighbor_matrix[i] = new int[size];
+		this->adjacency_matrix[i] = new int[size];
 
 	for (auto i = 0; i < size; i++)
 		for (auto j = 0; j < size; j++)
-			this->neighbor_matrix[i][j] = neighbor_matrix[i][j];
+			this->adjacency_matrix[i][j] = adjacency_matrix[i][j];
 
 	tmp_path_.reserve(size);
 
@@ -29,8 +29,8 @@ Search::~Search()
 	if (result != nullptr) delete result;
 	for (auto i = 0; i < size; i++) delete vertex_map[i];
 	delete vertex_map;
-	for (auto i = 0; i < size; i++) delete neighbor_matrix[i];
-	delete neighbor_matrix;
+	for (auto i = 0; i < size; i++) delete adjacency_matrix[i];
+	delete adjacency_matrix;
 }
 
 Path Search::getShortestPath() const
@@ -57,12 +57,12 @@ void Search::look_(int deep, int sum, int current)
 		}
 
 		auto next = vertex_map[current][i];
-		if (next <= 0) return;
+		if (next < 0) return;
 		if (isUsedVertex_(next)) continue;
 
 		//Inicjalizacja wejœcia do nastêpnego wêz³a
 		useVertex_(next);
-		look_(deep + 1, sum + neighbor_matrix[current][next], next);
+		look_(deep + 1, sum + adjacency_matrix[current][next], next);
 		releaseVertex_(next);
 	}
 }
@@ -79,7 +79,7 @@ void Search::generateVertexMap_()
 		for (auto i = 0; i < size; i++)
 		{
 			vertex_map[id_vertex][i] = i;
-			vertex_cost[i] = neighbor_matrix[id_vertex][i];
+			vertex_cost[i] = adjacency_matrix[id_vertex][i];
 		}
 
 		for (int i = 0; i < size; i++)
@@ -99,7 +99,7 @@ void Search::generateVertexMap_()
 				}
 
 		for (int i = 0; i < size; i++)
-			if (vertex_cost[i] <= 0) vertex_map[id_vertex][i] = 0;
+			if (vertex_cost[i] <= 0) vertex_map[id_vertex][i] = -1;
 	}
 	delete[] vertex_cost;
 }

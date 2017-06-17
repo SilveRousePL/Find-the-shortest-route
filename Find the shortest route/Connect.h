@@ -9,10 +9,9 @@ class Connect : public sf::Drawable, public sf::Transformable
 	int id_begin;
 	int id_end;
 	sf::RectangleShape line;
+	sf::CircleShape arrowhead;
+	sf::RectangleShape background;
 	sf::Text cost;
-
-	float length;
-	float angle;
 
 public:
 	Connect(int id_begin, int id_end, sf::Font & font, unsigned int cost);
@@ -22,7 +21,8 @@ public:
 	void update(Vertex& vertex_begin, Vertex& vertex_end);
 	double calcLength(Vertex & vertex_begin, Vertex & vertex_end) const;
 	double calcAngle(Vertex & vertex_begin, Vertex & vertex_end) const;
-	void changeID(int id_begin);
+	sf::Vector2f calcCenter(Vertex& vertex_begin, Vertex& vertex_end) const;
+	void setID(int id_begin, int id_end);
 
 	sf::Vector2i getVertexID() const;
 	sf::RectangleShape getShape() const;

@@ -7,7 +7,7 @@ class Search
 {
 	typedef std::vector<std::vector<int>> Matrix;
 	int ** vertex_map; //Mapa wêz³ów
-	int ** neighbor_matrix; //Macierz s¹siedztwa
+	int ** adjacency_matrix; //Macierz s¹siedztwa
 	size_t size; //Rozmiar macierzy (iloœæ wêz³ów)
 	int id_begin; //ID wêz³a pocz¹tkowego
 	int id_end; //ID wêz³a koñcowego
@@ -16,7 +16,7 @@ class Search
 	std::vector <int> tmp_path_; //Tablica ID u¿ytych wêz³ów, zachowuje kolejnoœæ u¿ycia
 
 public:
-	Search(Matrix & neighbor_matrix, int id_begin, int id_end);
+	Search(Matrix & adjacency_matrix, int id_begin, int id_end);
 	~Search();
 
 	Path getShortestPath() const; //Zwraca rezultat wyszukiwania

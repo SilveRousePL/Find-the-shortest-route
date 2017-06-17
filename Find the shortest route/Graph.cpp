@@ -3,7 +3,6 @@
 using namespace std;
 
 Graph::Graph()
-	: shortest_path(nullptr)
 {}
 
 Graph::~Graph()
@@ -21,92 +20,84 @@ void Graph::draw(sf::RenderTarget & target, sf::RenderStates states) const
 void Graph::newGraph()
 {
 	vertex.clear();
-	neighbor.clear();
+	adjacency.clear();
 	connect.clear();
 }
 
 void Graph::addVertex(sf::Vector2f pos)
 {
-	vertex.push_back(Vertex(pos, font, to_string(vertex.size())));
-	vector<int> tmp(vertex.size());
-	for (auto i = 0; i < neighbor.size(); i++)
-		neighbor[i].push_back(0);
-	neighbor.push_back(tmp);
+	vertex.push_back(Vertex(vertex.size(), pos, font, to_string(vertex.size()))); //Dodanie nowego Vertexa
+	vector<int> tmp(vertex.size()); //Utworzenie tymczasowego vectora do zagnie¿d¿enia w macierzy s¹siedztwa
+	for (auto i = 0; i < adjacency.size(); i++)
+		adjacency[i].push_back(0); //Dodanie nowej kolumny
+	adjacency.push_back(tmp); //Dodanie nowego wiersza
 }
 
 void Graph::addConnect(int id_begin, int id_end, unsigned int cost)
 {
-	//Sprawdzenie warunków
-	if (id_begin >= neighbor.size() || id_end >= neighbor.size() || id_begin < 0 || id_end < 0) return;
-	if (id_begin == id_end) return;
-	if (cost <= 0) return;
-	for (auto it = connect.begin(); it != connect.end(); ++it)
+	//Sprawdzenie warunków koniecznych
+	if (id_begin >= adjacency.size() || id_end >= adjacency.size() || id_begin < 0 || id_end < 0) return;
+	if (id_begin == id_end) return; //Nie mo¿na po³¹czyæ do siebie samego
+	if (cost <= 0) return; //Koszty musz¹ byæ dodatnie
+	for (auto it = connect.begin(); it != connect.end(); ++it) //Czy istnieje ju¿ takie po³¹czenie
 		if (it->getVertexID().x == id_begin && it->getVertexID().y == id_end) return;
 
 	//Czêœæ wykonywalna
-	deletePath();
-	neighbor[id_begin][id_end] = cost;
-	connect.push_back(Connect(id_begin, id_end, font, cost));
-	refreshConnects();
+	adjacency[id_begin][id_end] = cost; //Wpisanie do macierzy kosztu
+	connect.push_back(Connect(id_begin, id_end, font, cost)); //Utworzenie po³¹czenia
+	refreshConnects(); //Odœwie¿enie grafiki
 }
 
-void Graph::remVertex(int id_vertex) //POPRAWIC
+void Graph::remVertex(int id_vertex) //Do poprawek
 {
-	if (id_vertex >= vertex.size() || id_vertex < 0) return;
+	if (id_vertex >= vertex.size() || id_vertex < 0) return; //Vertex o podanym ID musi istnieæ
 
-	for (auto i = connect.size() - 1; i > 0 ; i--)
+	//Wykrywanie i usuwanie po³¹czeñ ju¿ niepotrzebnych
+	for (auto i = connect.size() - 1; i >= 0; i--)
+	{
 		if (connect[i].getVertexID().x == id_vertex || connect[i].getVertexID().y == id_vertex)
-			remConnect(i);
-
-	for (auto i = 0; i < connect.size(); i++)
-		connect[i].changeID(id_vertex);
+		{
+			adjacency[connect[i].getVertexID().x][connect[i].getVertexID().y] = 0;
+			connect.erase(connect.begin() + i);
+		}
+	}
 	
+	//Zachowanie po³¹czeñ z odpowiednimi Vertexami
+	for (auto i = 0; i < connect.size(); i++)
+	{
+		auto x = connect[i].getVertexID().x;
+		auto y = connect[i].getVertexID().y;
+		if (x > id_vertex) x--;
+		if (y > id_vertex) y--;
+		connect[i].setID(x, y);
+	}
+	
+	//Usuniêcie Vertexa i usuniêcie odpowiedniego wiersza i kolumny macierzy s¹siedztwa
 	vertex.erase(vertex.begin() + id_vertex);
-	for (auto i = 0; i < neighbor.size(); i++)
-		neighbor[i].erase(neighbor[i].begin() + id_vertex);
-	neighbor.erase(neighbor.begin() + id_vertex);
+	for (auto i = 0; i < adjacency.size(); i++)
+		adjacency[i].erase(adjacency[i].begin() + id_vertex);
+	adjacency.erase(adjacency.begin() + id_vertex);
 
+	//Odœwie¿enie
 	if (vertex.size() == 0) newGraph();
 	else refreshConnects();
-
-	/*cout << "Przed usunieciem: " << endl;
-	for (int i = 0; i < vertex.size(); i++)
-		cout << &vertex[i] << " ";
-	cout << endl;*/
-
-	/*cout << "Po usunieciu: " << endl;
-	for (int i = 0; i < vertex.size(); i++)
-		cout << &vertex[i] << " ";
-	cout << endl;*/
 }
 
 void Graph::remConnect(int id_connect)
 {
 	if (id_connect >= connect.size() || id_connect < 0) return;
-	deletePath();
-	neighbor[connect[id_connect].getVertexID().x][connect[id_connect].getVertexID().y] = 0;
+	adjacency[connect[id_connect].getVertexID().x][connect[id_connect].getVertexID().y] = 0;
 	connect.erase(connect.begin() + id_connect);
 
 	refreshConnects();
 }
 
-void Graph::findShortestPath(int id_begin, int id_end)
+Path Graph::findShortestPath(int id_begin, int id_end)
 {
-	if (id_begin >= neighbor.size() || id_end >= neighbor.size() || id_begin < 0 || id_end < 0) return;
-	if (id_begin == id_end) return;
-
-	deletePath();
-	try
-	{
-		refreshConnects();
-		Search finder(neighbor, id_begin, id_end);
-		shortest_path = new Path(finder.getShortestPath());
-		coloringPath(*shortest_path, sf::Color(64, 255, 64));
-	}
-	catch(WarningException & e)
-	{
-		e.sysWindow();
-	}
+	if (id_begin >= adjacency.size() || id_end >= adjacency.size() || id_begin < 0 || id_end < 0 || id_begin == id_end) throw WarningException("Invalid Value");
+	refreshConnects();
+	Search finder(adjacency, id_begin, id_end);
+	return finder.getShortestPath();
 }
 
 size_t Graph::getSize() const
@@ -121,12 +112,12 @@ vector<Vertex> Graph::getVertex() const
 
 vector<vector<int>> Graph::getMatrix() const
 {
-	return neighbor;
+	return adjacency;
 }
 
 int Graph::getIDConnectByVertexsID(int id_begin, int id_end) const
 {
-	for (int i = 0; i < vertex.size() - 1; i++)
+	for (int i = 0; i < connect.size(); i++)
 	{
 		if (connect[i].getVertexID().x == id_begin && connect[i].getVertexID().y == id_end) return i;
 	}
@@ -187,17 +178,24 @@ void Graph::refreshConnects()
 
 void Graph::coloringPath(Path path, sf::Color color)
 {
-	for (int i = 0; i < vertex.size(); i++)
+	for (int i = 0; i < path.getPath().size(); i++)
 		setColorV(path.getPath()[i], color);
-	for (int i = 0; i < vertex.size() - 1; i++)
-		setColorC(getIDConnectByVertexsID(i, i + 1), color);
+	for (int i = 0; i < path.getPath().size() - 1; i++)
+	{
+		setColorC(getIDConnectByVertexsID(path.getPath()[i], path.getPath()[i + 1]), color);
+		cout << getIDConnectByVertexsID(path.getPath()[i], path.getPath()[i + 1])
+			<< " - "
+			<< path.getPath()[i]
+			<< " "
+			<< path.getPath()[i + 1]
+			<< endl;
+	}
 }
 
-void Graph::deletePath()
+void Graph::deleteColoring(sf::Color color)
 {
-	if (shortest_path != nullptr)
-	{
-		coloringPath(*shortest_path, sf::Color(255, 255, 255));
-		delete shortest_path;
-	}
+	for (int i = 0; i < vertex.size(); i++)
+		setColorV(i, color);
+	for (int i = 0; i < connect.size(); i++)
+		setColorC(i, color);
 }

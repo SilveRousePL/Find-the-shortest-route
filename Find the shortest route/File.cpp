@@ -14,12 +14,14 @@ File::~File()
 
 void File::load()
 {
-	file_path_ = fileOpenDialog();
+	try { file_path_ = fileOpenDialog(); }
+	catch (Info & i) { i.sysWindow(); return; }
 	if (isGood()) handle.close();
 	handle.open(file_path_, ios::in);
 	if (isGood() && graph != nullptr)
 	{
 		if (parseFile() == 0) throw WarningException("Failed to open file");
+		handle.close();
 	}
 	else throw WarningException("Failed to open file");
 }
@@ -28,10 +30,12 @@ void File::save()
 {
 	if (!isGood())
 	{
-		file_path_ = fileSaveDialog();
-		handle.open(file_path_, ios::out | ios::trunc);
-		if (!isGood()) throw WarningException("Failed to save file");
+		try { file_path_ = fileSaveDialog(); }
+		catch (Info & i) { i.sysWindow(); return; }
 	}
+	handle.close();
+	handle.open(file_path_, ios::out | ios::trunc);
+	if (!isGood()) throw WarningException("Failed to save file");
 	createFile();
 }
 
@@ -94,6 +98,7 @@ int File::parseFile()
 	handle.seekg(0);
 	if (file_v.size() != file_m.size()) return 0;
 	
+	graph->newGraph();
 	stringstream ss;
 	for (int i = 0; i < file_v.size(); i++)
 	{
