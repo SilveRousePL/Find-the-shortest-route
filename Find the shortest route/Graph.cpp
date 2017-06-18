@@ -48,7 +48,7 @@ void Graph::addConnect(int id_begin, int id_end, unsigned int cost)
 	refreshConnects(); //Odœwie¿enie grafiki
 }
 
-void Graph::remVertex(int id_vertex) //Do poprawek
+/*void Graph::remVertex(int id_vertex) //Do poprawek
 {
 	if (id_vertex >= vertex.size() || id_vertex < 0) return; //Vertex o podanym ID musi istnieæ
 
@@ -82,20 +82,22 @@ void Graph::remVertex(int id_vertex) //Do poprawek
 	if (vertex.size() == 0) newGraph();
 	else refreshConnects();
 }
-
+*/
 void Graph::remConnect(int id_connect)
 {
-	if (id_connect >= connect.size() || id_connect < 0) return;
-	adjacency[connect[id_connect].getVertexID().x][connect[id_connect].getVertexID().y] = 0;
-	connect.erase(connect.begin() + id_connect);
+	if (id_connect >= connect.size() || id_connect < 0) return; //Czy ID jest prawid³owy
+	adjacency[connect[id_connect].getVertexID().x][connect[id_connect].getVertexID().y] = 0; //Usuniêcie po³¹czenia z macierzy s¹siedztwa
+	connect.erase(connect.begin() + id_connect); //Usuniêcie po³¹czenia
 
-	refreshConnects();
+	refreshConnects(); //Odœwie¿enie po³¹czeñ
 }
 
 Path Graph::findShortestPath(int id_begin, int id_end)
 {
+	//Sprawdzenie podstawowych warunków potrzebnych do uruchomienia algorytmu
 	if (id_begin >= adjacency.size() || id_end >= adjacency.size() || id_begin < 0 || id_end < 0 || id_begin == id_end) throw WarningException("Invalid Value");
 	refreshConnects();
+	//Uruchomienie algorytmu wyszukuj¹cego i zwrócenie œcie¿ki
 	Search finder(adjacency, id_begin, id_end);
 	return finder.getShortestPath();
 }
@@ -151,7 +153,7 @@ int Graph::detectVertex(sf::Vector2f position)
 	int id = 0;
 	for (auto i = vertex.begin(); i != vertex.end(); i++)
 	{
-		if (i->getShape().getGlobalBounds().contains(position))
+		if (i->getShape().getGlobalBounds().contains(position)) //Czy pozycja podana w arg. zawiera siê w danym obiekcie
 			return id;
 		id++;
 	}
@@ -163,7 +165,7 @@ int Graph::detectConnect(sf::Vector2f position)
 	int id = 0;
 	for (auto i = connect.begin(); i != connect.end(); i++)
 	{
-		if (i->getShape().getGlobalBounds().contains(position))
+		if (i->getShape().getGlobalBounds().contains(position)) //Czy pozycja podana w arg. zawiera siê w danym obiekcie
 			return id;
 		id++;
 	}

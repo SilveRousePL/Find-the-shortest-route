@@ -4,8 +4,8 @@
 
 class Path
 {
-	std::vector <int> vertex;
-	int cost;
+	std::vector <int> vertex; //Lista ID wierzcho³ków
+	int cost; //Ca³kowity koszt drogi
 
 public:
 	Path(std::vector <int> & id_vertex, int cost);

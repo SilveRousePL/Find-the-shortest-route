@@ -76,8 +76,8 @@ void Connect::setID(int id_begin, int id_end)
 {
 	if (id_begin >= 0 && id_end >= 0)
 	{
-		this->id_begin;
-		this->id_end;
+		this->id_begin = id_begin;
+		this->id_end = id_end;
 	}
 }
 

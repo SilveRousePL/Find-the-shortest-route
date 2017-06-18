@@ -127,28 +127,8 @@ void Search::releaseVertex_(int x)
 		}
 }
 
-//void Search::_uzupelnijWyniki()
-//{
-//	_sortuj(0, trasa.size() - 1);
-//
-//	vector<int> punkt_k;
-//	punkt_k.reserve(size);
-//	for (auto i = 0; i < trasa.size(); i++)
-//	{
-//		bool flaga = true;
-//		for (int j = 0; j < punkt_k.size(); j++)
-//			if (punkt_k[j] == trasa[i].koniec())
-//				flaga = false;
-//		if (flaga)
-//		{
-//			wynik.push_back(trasa[i]);
-//			punkt_k.push_back(trasa[i].koniec());
-//		}
-//	}
-//}
-
 // QUICKSORT
-//void Search::_sortuj(int lewa, int prawa)
+//void Search::_sort(int lewa, int prawa)
 //{
 //	int i = lewa;
 //	int j = prawa;

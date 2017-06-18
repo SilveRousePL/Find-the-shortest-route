@@ -5,12 +5,14 @@ using namespace std;
 Window::Window(int width, int height) 
 	: graph(nullptr), id_buffer(-1), mode(NONE)
 {
-	if (width <= 0 || height <= 0) throw CriticalException("Incorrect window size");
-	window.create(sf::VideoMode(width, height), "Find the shortest route - Dariusz Tomaszewski, 235565", sf::Style::Close);
-	window.setFramerateLimit(60);
+	if (width < 128 || height < 128) throw CriticalException("Incorrect window size"); //Wyrzuæ krytyczny wyj¹tek, gdy rozmiar okna jest zbyt ma³y
+	window.create(sf::VideoMode(width, height), "Find the shortest route - Dariusz Tomaszewski, 235565", sf::Style::Close); //Tworzenie okna
+	window.setFramerateLimit(60); //Ograniczenie generowania klatek
 
+	//Wyrzuæ krytyczny wyj¹tek, gdy za³adowano czcionki
 	if (!font.loadFromFile("arial.ttf")) throw CriticalException("Font failed");
 
+	//Ustawienie parametrów komunikatu w dolnej czêœci okna
 	dialog.setFont(font);
 	dialog.setCharacterSize(24);
 	dialog.setFillColor(sf::Color(255, 255, 255));
@@ -58,8 +60,10 @@ void Window::eventCheck()
 
 void Window::mouseEvent()
 {
+	//Wykrywanie obiektów pod kursorem
 	int id_vertex = graph->detectVertex(static_cast<sf::Vector2f>(sf::Mouse::getPosition(window)));
 	int id_connect = graph->detectConnect(static_cast<sf::Vector2f>(sf::Mouse::getPosition(window)));
+	//Jeœli zosta³ naciœniêty lewy przycisk myszy (Potem sprawdzanie, jaki tryb pracy wybraliœmy)
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
 		if (mode == NONE)
@@ -98,9 +102,10 @@ void Window::mouseEvent()
 			}
 			if (mode == REMOVE)
 			{
-				if (id_vertex != -1 && id_connect != -1) graph->remVertex(id_vertex);
+				/*if (id_vertex != -1 && id_connect != -1) graph->remVertex(id_vertex);
 				else if (id_vertex != -1) graph->remVertex(id_vertex);
-				else if (id_connect != -1) graph->remConnect(id_connect);
+				else if (id_connect != -1) graph->remConnect(id_connect);*/
+				if (id_connect != -1) graph->remConnect(id_connect);
 			}
 			if (mode == FIND)
 			{
@@ -201,7 +206,7 @@ void Window::keyboardEvent()
 		if (event.key.code == sf::Keyboard::D)
 		{
 			mode = REMOVE;
-			setDialog("Remove object");
+			setDialog("Remove connect");
 		}
 		if (event.key.code == sf::Keyboard::F)
 		{

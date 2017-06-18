@@ -28,7 +28,7 @@ private:
 	sum - Bie¿¹cy koszt tej trasy (Pierwsze wywo³anie = 0)		
 	current - Nr wêz³a w którym obecnie siê znajduje (Pierwsze wywo³anie = Wêze³ pocz¹tkowy) */
 															   
-	void generateVertexMap_(); //Generuje mapê wêz³ów
+	void generateVertexMap_(); //Generuje mapê wêz³ów na podstawie macierzy s¹siedztwa
 	void useVertex_(int); //Zapisuje stan wêz³a jako u¿yty
 	bool isUsedVertex_(int) const; //Zwraca stan wêz³a
 	void releaseVertex_(int); //Zapisuje stan wêz³a jako wolny

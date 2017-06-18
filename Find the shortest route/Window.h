@@ -14,7 +14,7 @@ class Window
 	Graph * graph;
 	File * file;
 	sf::Text dialog;
-	Mode mode;
+	Mode mode; //enum, przechowuje obecny tryb dzia³ania
 
 	int id_buffer;
 	std::string text_buffer;
@@ -31,6 +31,6 @@ private:
 	void mouseEvent();
 	void keyboardEvent();
 
-	void setDialog(std::string text);
-	void closeApp();
+	void setDialog(std::string text); //UStawia komunikat w dolnej czêœci okna
+	void closeApp(); //Zamyka aplikacjê
 };
