@@ -181,15 +181,7 @@ void Graph::coloringPath(Path path, sf::Color color)
 	for (int i = 0; i < path.getPath().size(); i++)
 		setColorV(path.getPath()[i], color);
 	for (int i = 0; i < path.getPath().size() - 1; i++)
-	{
 		setColorC(getIDConnectByVertexsID(path.getPath()[i], path.getPath()[i + 1]), color);
-		cout << getIDConnectByVertexsID(path.getPath()[i], path.getPath()[i + 1])
-			<< " - "
-			<< path.getPath()[i]
-			<< " "
-			<< path.getPath()[i + 1]
-			<< endl;
-	}
 }
 
 void Graph::deleteColoring(sf::Color color)

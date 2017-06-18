@@ -5,7 +5,9 @@ using namespace std;
 
 File::File(Graph & graph)
 	: graph(&graph), file_path_("")
-{}
+{
+	if (isGood()) handle.close();
+}
 
 File::~File()
 {

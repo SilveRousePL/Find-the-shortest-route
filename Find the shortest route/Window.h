@@ -17,6 +17,7 @@ class Window
 	Mode mode;
 
 	int id_buffer;
+	std::string text_buffer;
 
 public:
 	Window(int=800, int=600);
@@ -30,7 +31,6 @@ private:
 	void mouseEvent();
 	void keyboardEvent();
 
-	std::string textBox();
 	void setDialog(std::string text);
 	void closeApp();
 };

@@ -5,8 +5,8 @@ using namespace std;
 Window::Window(int width, int height) 
 	: graph(nullptr), id_buffer(-1), mode(NONE)
 {
-	if (width <= 0 || height <= 0) throw string("Incorrect window size");
-	window.create(sf::VideoMode(width, height), "Find the shortest route - 235565", sf::Style::Close);
+	if (width <= 0 || height <= 0) throw CriticalException("Incorrect window size");
+	window.create(sf::VideoMode(width, height), "Find the shortest route - Dariusz Tomaszewski, 235565", sf::Style::Close);
 	window.setFramerateLimit(60);
 
 	if (!font.loadFromFile("arial.ttf")) throw CriticalException("Font failed");
@@ -89,7 +89,8 @@ void Window::mouseEvent()
 					}
 					else
 					{
-						graph->addConnect(id_buffer, id_vertex, 1);
+						if (text_buffer.length() == 0) text_buffer.push_back('1');
+						graph->addConnect(id_buffer, id_vertex, stoi(text_buffer));
 						graph->setColorV(id_buffer, sf::Color(255, 255, 255));
 						id_buffer = -1;
 					}
@@ -150,6 +151,21 @@ void Window::keyboardEvent()
 	if (event.type == sf::Event::KeyPressed)
 	{
 		graph->deleteColoring(sf::Color(255, 255, 255));
+		if (mode == ADD_CONNECT && (event.key.code >= sf::Keyboard::Num0 && event.key.code <= sf::Keyboard::Num9 || event.key.code == sf::Keyboard::BackSpace))
+		{
+			if (text_buffer.length() < 9 && event.key.code != sf::Keyboard::BackSpace)
+			{
+				if (text_buffer.length() == 0)
+				{
+					if (event.key.code != sf::Keyboard::Num0)
+						text_buffer.push_back(event.key.code + 22);
+				}
+				else text_buffer.push_back(event.key.code + 22);
+			}
+			else if (event.key.code == sf::Keyboard::BackSpace && text_buffer.length() != 0) 
+				text_buffer.pop_back();
+			setDialog("Add Connect ### Cost = " + text_buffer);
+		}
 		if (event.key.code == sf::Keyboard::N)
 		{
 			graph->newGraph();
@@ -179,7 +195,8 @@ void Window::keyboardEvent()
 		{
 			mode = ADD_CONNECT;
 			id_buffer = -1;
-			setDialog("Add Connect");
+			text_buffer = "1";
+			setDialog("Add Connect ### Cost = " + text_buffer);
 		}
 		if (event.key.code == sf::Keyboard::D)
 		{
@@ -200,22 +217,6 @@ void Window::keyboardEvent()
 			id_buffer = -1;
 		}
 	}
-}
-
-string Window::textBox()
-{
-	/*HWND editID = GetDlgItem(hwnd, ID_EDIT);
-	_TCHAR buff[20];
-	GetWindowText(editID, buff, 20);
-	double liczba = _tcstod(buff, NULL); //TUTAJ powinno byæ "_tcstod"
-	_TCHAR szBuffer[1000];
-	_stprintf(szBuffer, _T("Wynik to: %g pkt."), liczba); //TUTAJ powinno byæ %g a nie %i
-	MessageBox(NULL, szBuffer, _T("Wniki skomplikowanych obliczeñ"), MB_ICONINFORMATION);
-
-	HWND hText = CreateWindowEx(WS_EX_CLIENTEDGE, _T("EDIT"), NULL, WS_CHILD | WS_VISIBLE | WS_BORDER, 10, 10, 150, 20, hWnd, (HMENU)ID_EDIT, hInstance, NULL);*/
-
-	return "h";
-
 }
 
 void Window::setDialog(string text)
